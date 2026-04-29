@@ -2,6 +2,7 @@
 
 
 <meta charset="UTF-8">
+<meta id="apple-status-bar-meta" name="apple-mobile-web-app-status-bar-style" content="black-translucent">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f7">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
@@ -9,6 +10,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="BlackSpace">
+
 <title>BlackSpace</title>
 <template id="__bundler_thumbnail" data-bg-color="#f5f5f7">
   <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
@@ -2930,21 +2932,25 @@ const LANG_KEY  = 'bs_lang';
 const THEMES = ['light', 'dark', 'trader'];
 let curTheme = 'light';
 // Restore saved theme on load
-try {
-  const saved = localStorage.getItem(THEME_KEY);
-  if(THEMES.includes(saved)){
-    curTheme = saved;
-    document.documentElement.setAttribute('data-theme', curTheme);
-    
-    const colors = { light: '#fafafa', dark: '#000000', trader: '#000000' };
-    const meta = document.getElementById('theme-color-meta');
-    if(meta) meta.setAttribute('content', colors[curTheme]);
-    // iOS PWA status bar style — 'default' = white bg + dark text, 'black' = black bg + white text
-    const appleStyles = { light: 'black-translucent', dark: 'black-translucent', trader: 'black-translucent' };
-    const appleMeta = document.getElementById('apple-status-bar-meta');
-    if(appleMeta) appleMeta.setAttribute('content', appleStyles[curTheme]);
-  }
-} catch(_){}
+try {  
+  const saved = localStorage.getItem(THEME_KEY);  
+  if(THEMES.includes(saved)){  
+    curTheme = saved;  
+    document.documentElement.setAttribute('data-theme', curTheme);  
+      
+    const colors = { light: '#fafafa', dark: '#000000', trader: '#000000' };  
+    const themeMeta = document.getElementById('theme-color-meta');  
+    if(themeMeta) themeMeta.setAttribute('content', colors[curTheme]);  
+
+    // 新增：更新 Apple 狀態列風格  
+    const appleMeta = document.getElementById('apple-status-bar-meta');  
+    if(appleMeta) {  
+      const appleStyles = { light: 'default', dark: 'black-translucent', trader: 'black-translucent' };  
+      appleMeta.setAttribute('content', appleStyles[curTheme]);  
+    }  
+  }  
+} catch(_){}  
+
 
 function toggleTheme(){
   const idx = THEMES.indexOf(curTheme);
@@ -2955,9 +2961,10 @@ function toggleTheme(){
   const colors = { light: '#fafafa', dark: '#000000', trader: '#000000' };
   const meta = document.getElementById('theme-color-meta');
   if(meta) meta.setAttribute('content', colors[curTheme]);
-  const appleStyles = { light: 'black-translucent', dark: 'black-translucent', trader: 'black-translucent' };
-  const appleMeta = document.getElementById('apple-status-bar-meta');
-  if(appleMeta) appleMeta.setAttribute('content', appleStyles[curTheme]);
+  const appleStyles = { light: 'default', dark: 'black-translucent', trader: 'black-translucent' };  
+const appleMeta = document.getElementById('apple-status-bar-meta');  
+if(appleMeta) appleMeta.setAttribute('content', appleStyles[curTheme]);   
+
   
   updateSettingsMenuValues();
 }
