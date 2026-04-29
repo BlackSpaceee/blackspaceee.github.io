@@ -1,2 +1,1 @@
-BlackSpace 
-Ver 1.2 28/4/2026
+BlackSpace 28/4/2026
